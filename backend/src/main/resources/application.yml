@@ -7,3 +7,24 @@ spring:
       host: localhost
       port: 27017
       database: youtube-clone
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+# swagger-ui custom path
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+
+#AWS properties
+aws:
+  accessKey:
+  secretKey:
+  region:
+
+s3:
+  bucket:
+    name: jskool-youtube-clone
