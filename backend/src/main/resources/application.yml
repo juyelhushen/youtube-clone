@@ -22,9 +22,7 @@ springdoc:
 
 #AWS properties
 aws:
-  accessKey: AKIARV3CMNE6T354SVNS
-  secretKey: 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
-  region: ap-south-1
+
 
 #  accessKey: <accesskey>
 #  secretKey: <secretKey>
