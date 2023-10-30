@@ -7,6 +7,7 @@ spring:
       host: localhost
       port: 27017
       database: youtube-clone
+      auto-index-creation: false
 
   servlet:
     multipart:
@@ -21,9 +22,13 @@ springdoc:
 
 #AWS properties
 aws:
-  accessKey:
-  secretKey:
-  region:
+  accessKey: AKIARV3CMNE6T354SVNS
+  secretKey: 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
+  region: ap-south-1
+
+#  accessKey: <accesskey>
+#  secretKey: <secretKey>
+#  region: <region>
 
 s3:
   bucket:

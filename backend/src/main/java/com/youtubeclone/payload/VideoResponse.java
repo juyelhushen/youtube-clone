@@ -10,14 +10,18 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VideoRequest {
+public class VideoResponse {
 
+    private String videoId;
     private String title;
     private String description;
     private Set<String> tags;
-    private String videoUrl;
     private VideoStatus videoStatus;
     private String thumbnailUrl;
+    private String videoUrl;
 
-
+    public VideoResponse(String videoId, String videoUrl) {
+        this.videoId = videoId;
+        this.videoUrl = videoUrl;
+    }
 }

@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {FileSystemDirectoryEntry, FileSystemFileEntry, NgxFileDropEntry} from "ngx-file-drop";
 import {VideoService} from "../../service/video.service";
 import {SnackbarService} from "../../service/snackbar.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-upload-video',
@@ -12,14 +13,15 @@ export class UploadVideoComponent {
 
   public files: NgxFileDropEntry[] = [];
   fileEntry!: FileSystemFileEntry;
-  isFileUploaded:boolean = false;
+  isFileUploaded: boolean = false;
 
   constructor(private videoService: VideoService,
-              private snackBarService:SnackbarService) {
+              private snackBarService: SnackbarService,
+              private router: Router) {
   }
 
   public dropped(files: NgxFileDropEntry[]) {
-  this.files = files;
+    this.files = files;
 
 
     for (const droppedFile of files) {
@@ -59,11 +61,11 @@ export class UploadVideoComponent {
     }
   }
 
-  public fileOver(event:any) {
+  public fileOver(event: any) {
     console.log(event);
   }
 
-  public fileLeave(event:any) {
+  public fileLeave(event: any) {
     console.log(event);
   }
 
@@ -72,12 +74,13 @@ export class UploadVideoComponent {
     if (this.fileEntry !== undefined) {
       this.fileEntry.file(file => {
         this.videoService.uploadVideo(file).subscribe({
-            next:(res:any) => {
-              this.snackBarService.openSuccessSnackBar('Upload Successfully','');
-            },
-            error:(err) => {
-                console.log("Something went wrong");
-            }
+          next: (res: any) => {
+            this.snackBarService.openSuccessSnackBar('Upload Successfully', '');
+            this.router.navigateByUrl('/save-video-detail/' + res.videoId);
+          },
+          error: (err) => {
+            console.log("Something went wrong");
+          }
         })
       })
     }

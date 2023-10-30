@@ -5,14 +5,19 @@
     </button>
     <span>Youtube Clone</span>
     <span class="spacer"></span>
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon"
+            routerLink='/upload-video'>
       <mat-icon>video_call</mat-icon>
     </button>
     <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
       <mat-icon>notifications_none</mat-icon>
     </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+    <button mat-icon-button *ngIf="isAuthenticated; else noAuth" class="example-icon"
+            aria-label="Example icon-button with share icon">
       <mat-icon>account_circle</mat-icon>
     </button>
+    <ng-template #noAuth>
+      <button mat-raised-button color="accent" (click)='login()'>Login</button>
+    </ng-template>
   </mat-toolbar>
 </div>

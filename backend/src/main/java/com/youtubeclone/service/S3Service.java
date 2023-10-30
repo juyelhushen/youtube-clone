@@ -37,11 +37,11 @@ public class S3Service implements FileService {
         try {
             s3.putObject(bucketName, key, file.getInputStream(), metadata);
         } catch (IOException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "A Exception occurred while" +
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "A Exception occurred while " +
                     "uploading the file");
         }
 //        s3.setObjectAcl(bucketName, key, CannedAccessControlList.PublicRead);
-        return s3.getObjectAsString(bucketName, key);
+        return s3.getUrl(bucketName,key).toString();
 
     }
 }
