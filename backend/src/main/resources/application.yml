@@ -14,15 +14,33 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: <issueUrl>
+          audiences:  http://localhost:8080
+
+
 # swagger-ui custom path
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
 
-#AWS properties
-aws:
+logging:
+  file:
+    path: logs/
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+  level:
+    web: error
+    root: info
+    sql: error
 
+
+#AWS properties
 
 #  accessKey: <accesskey>
 #  secretKey: <secretKey>
@@ -30,4 +48,5 @@ aws:
 
 s3:
   bucket:
-    name: jskool-youtube-clone
+    name: jskool-bucket
+
