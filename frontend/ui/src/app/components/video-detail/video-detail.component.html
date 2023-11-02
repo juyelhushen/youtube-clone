@@ -1,0 +1,16 @@
+<div class="container-fluid mt-2" >
+  <mat-grid-list cols="6" rowHeight="100px" gutterSize="10px">
+    <mat-grid-tile class="videoPlayer" colspan="4" rowspan="4">
+      <app-video-player *ngIf="videoUrl" [videoUrl]='videoUrl'></app-video-player>
+    </mat-grid-tile>
+    <mat-grid-tile class="suggestion" colspan="2" rowspan="7">Suggestion</mat-grid-tile>
+    <mat-grid-tile colspan="4" >
+     <span class="title">{{title}}</span>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2" style="background-color:darkred">subscribe</mat-grid-tile>
+    <mat-grid-tile colspan="2" style="background-color:cadetblue;">like share and bel-icon</mat-grid-tile>
+    <mat-grid-tile colspan="4">
+      <span class="desc lead">{{description}}</span>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
