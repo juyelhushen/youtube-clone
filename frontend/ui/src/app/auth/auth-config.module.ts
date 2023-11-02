@@ -12,7 +12,11 @@ import {AuthModule, LogLevel} from 'angular-auth-oidc-client';
             responseType: 'code',
             silentRenew: true,
             useRefreshToken: true,
-            logLevel:LogLevel.Debug
+            logLevel:LogLevel.Debug,
+            secureRoutes: ['http://localhost:8080/'],
+            customParamsAuthRequest: {
+              audience: 'http://localhost:8080/'
+            }
         }
       })],
     exports: [AuthModule],

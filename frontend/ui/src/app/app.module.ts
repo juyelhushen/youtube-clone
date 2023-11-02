@@ -7,7 +7,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {UploadVideoComponent} from './components/upload-video/upload-video.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgxFileDropModule} from 'ngx-file-drop';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MaterialModule} from "./shared/material-module";
 import {HeaderComponent} from './layout/header/header.component';
 import {SaveVideoDetailComponent} from './components/save-video-detail/save-video-detail.component';
@@ -16,7 +16,9 @@ import {VgControlsModule} from '@videogular/ngx-videogular/controls';
 import {VgOverlayPlayModule} from '@videogular/ngx-videogular/overlay-play';
 import {VgBufferingModule} from '@videogular/ngx-videogular/buffering';
 import {VideoPlayerComponent} from './components/video-player/video-player.component';
-import { AuthConfigModule } from './auth/auth-config.module';
+import {AuthConfigModule} from './auth/auth-config.module';
+import {AuthInterceptor} from "angular-auth-oidc-client";
+import { VideoDetailComponent } from './components/video-detail/video-detail.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { AuthConfigModule } from './auth/auth-config.module';
     UploadVideoComponent,
     HeaderComponent,
     SaveVideoDetailComponent,
-    VideoPlayerComponent
+    VideoPlayerComponent,
+    VideoDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,9 @@ import { AuthConfigModule } from './auth/auth-config.module';
     VgBufferingModule,
     AuthConfigModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
