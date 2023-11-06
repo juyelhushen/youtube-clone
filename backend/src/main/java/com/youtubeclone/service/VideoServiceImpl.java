@@ -16,6 +16,7 @@ public class VideoServiceImpl implements VideoService {
 
     private final S3Service s3Service;
     private final VideoRepository repository;
+    private final UserService userService;
 
     @Override
     public VideoResponse uploadVideo(MultipartFile file) {
@@ -65,15 +66,75 @@ public class VideoServiceImpl implements VideoService {
     public VideoResponse getVideoById(String videoId) {
         Video video = findVideoById(videoId);
 
-        VideoResponse response = new VideoResponse();
-        response.setVideoId(video.getId());
-        response.setVideoStatus(video.getVideoStatus());
-        response.setVideoUrl(video.getVideoUrl());
-        response.setDescription(video.getDescription());
-        response.setTitle(video.getTitle());
-        response.setTags(video.getTags());
-        response.setThumbnailUrl(video.getThumbnailUrl());
-
-        return response;
+        increaseViewCount(video);
+        userService.addVideoToHistory(videoId);
+        return videoResponse(video);
     }
+
+    private void increaseViewCount(Video video) {
+        video.increaseViewCount();
+        repository.save(video);
+    }
+
+    @Override
+    public VideoResponse likeVideo(String videoId) {
+
+        Video videoById = findVideoById(videoId);
+
+        if (userService.ifLikedVideos(videoId)) {
+            videoById.decrementLikes();
+            userService.removeFromLikedVideos(videoId);
+        } else if (userService.ifDisLikedVideos(videoId)) {
+            videoById.decrementLikes();
+            userService.removeFromDisLikedVideos(videoId);
+            videoById.incrementLikes();
+            userService.addToLikedVideo(videoId);
+        } else {
+            videoById.incrementLikes();
+            userService.addToLikedVideo(videoId);
+        }
+
+        repository.save(videoById);
+        return videoResponse(videoById);
+
+ }
+
+    @Override
+    public VideoResponse dislikeVideo(String videoId) {
+        Video videoById = findVideoById(videoId);
+
+        if (userService.ifDisLikedVideos(videoId)) {
+            videoById.decrementDisLikes();
+            userService.removeFromDisLikedVideos(videoId);
+        } else if (userService.ifLikedVideos(videoId)) {
+            videoById.decrementLikes();
+            userService.removeFromLikedVideos(videoId);
+            videoById.incrementDisLikes();
+            userService.addToDisLikedVideo(videoId);
+        } else {
+            videoById.incrementDisLikes();
+            userService.addToDisLikedVideo(videoId);
+        }
+
+        repository.save(videoById);
+
+        return videoResponse(videoById);
+ }
+
+    private VideoResponse videoResponse(Video video) {
+        VideoResponse videoResponse = new VideoResponse();
+        videoResponse.setVideoId(video.getId());
+        videoResponse.setTitle(video.getTitle());
+        videoResponse.setThumbnailUrl(video.getThumbnailUrl());
+        videoResponse.setViewCount(video.getViewCount().get());
+        videoResponse.setTags(video.getTags());
+        videoResponse.setDescription(video.getDescription());
+        videoResponse.setVideoStatus(video.getVideoStatus());
+        videoResponse.setVideoUrl(video.getVideoUrl());
+        videoResponse.setLikedCount(video.getLikes().get());
+        videoResponse.setDisLikedCount(video.getDislikes().get());
+        return videoResponse;
+    }
+
+
 }

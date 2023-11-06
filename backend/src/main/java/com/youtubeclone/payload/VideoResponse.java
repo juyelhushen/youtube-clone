@@ -19,6 +19,9 @@ public class VideoResponse {
     private VideoStatus videoStatus;
     private String thumbnailUrl;
     private String videoUrl;
+    private Integer likedCount;
+    private Integer disLikedCount;
+    private Integer viewCount;
 
     public VideoResponse(String videoId, String videoUrl) {
         this.videoId = videoId;

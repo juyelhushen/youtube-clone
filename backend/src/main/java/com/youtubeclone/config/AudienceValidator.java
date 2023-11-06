@@ -23,12 +23,4 @@ public class AudienceValidator implements OAuth2TokenValidator<Jwt> {
         }
     }
 
-//    @Override
-//    public OAuth2TokenValidatorResult validate(Jwt jwt) {
-//        if (jwt.getAudience().contains("audience")) {
-//            return OAuth2TokenValidatorResult.success();
-//        }
-//
-//        return OAuth2TokenValidatorResult.failure(new OAuth2Error("Invalid audience for the gien token"));
-//    }
 }

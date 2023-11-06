@@ -19,6 +19,7 @@ import java.util.List;
 public class VideoController {
 
     private final VideoService videoService;
+    private final VideoRepository videoRepository;
 
     @PostMapping("/upload")
     @ResponseStatus(HttpStatus.CREATED)
@@ -51,12 +52,29 @@ public class VideoController {
         return videoService.getVideoById(videoId);
     }
 
+    @PostMapping("/like/{videoId}")
+    @ResponseStatus(HttpStatus.OK)
+    public VideoResponse likeVideo(@PathVariable String videoId) {
+        return videoService.likeVideo(videoId);
+    }
+
+    @PostMapping("/dislike/{videoId}")
+    @ResponseStatus(HttpStatus.OK)
+    public VideoResponse dislikeVideo(@PathVariable String videoId) {
+        return videoService.dislikeVideo(videoId);
+    }
+
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public List<Video> getAllVideo() {
         return videoService.getAllVideo();
 
+    }
+
+    @DeleteMapping("/deleteall")
+    public void deleteAllvideo() {
+        videoRepository.deleteAll();
     }
 }
 

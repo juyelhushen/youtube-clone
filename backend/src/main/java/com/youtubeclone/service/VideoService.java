@@ -18,4 +18,8 @@ public interface VideoService {
     String addThumbnail(String videoId, MultipartFile file);
 
     VideoResponse getVideoById(String videoId);
+
+    VideoResponse likeVideo(String videoId);
+
+    VideoResponse dislikeVideo(String videoId);
 }

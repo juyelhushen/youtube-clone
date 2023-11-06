@@ -19,7 +19,12 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: <issueUrl>
-          audiences:  http://localhost:8080
+          audiences:  http://localhost:8080/
+      authorizationserver:
+        endpoint:
+          oidc:
+            user-info-uri: <userInfoUrl>
+
 
 
 # swagger-ui custom path
@@ -42,6 +47,7 @@ logging:
 
 #AWS properties
 
+
 #  accessKey: <accesskey>
 #  secretKey: <secretKey>
 #  region: <region>
@@ -49,4 +55,3 @@ logging:
 s3:
   bucket:
     name: jskool-bucket
-
