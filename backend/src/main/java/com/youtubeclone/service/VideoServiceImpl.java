@@ -1,6 +1,9 @@
 package com.youtubeclone.service;
 
+import com.youtubeclone.entity.Comment;
 import com.youtubeclone.entity.Video;
+import com.youtubeclone.payload.CommentRequest;
+import com.youtubeclone.payload.CommentResponse;
 import com.youtubeclone.payload.VideoRequest;
 import com.youtubeclone.payload.VideoResponse;
 import com.youtubeclone.repository.VideoRepository;
@@ -43,8 +46,8 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public List<Video> getAllVideo() {
-        return repository.findAll().stream().toList();
+    public List<VideoResponse> getAllVideos() {
+        return repository.findAll().stream().map(this::videoResponse).toList();
     }
 
     @Override
@@ -136,5 +139,27 @@ public class VideoServiceImpl implements VideoService {
         return videoResponse;
     }
 
+    @Override
+    public void addComment(String videoId, CommentRequest request) {
+        Video video = findVideoById(videoId);
+        Comment comment = new Comment();
+        comment.setAuthorId(request.getAuthorId());
+        comment.setText(request.getCommentText());
+        video.addComment(comment);
+        repository.save(video);
+    }
 
+    @Override
+    public List<CommentResponse> getAllComment(String videoId) {
+        Video video = findVideoById(videoId);
+        List<Comment> commentList = video.getComments();
+        return commentList.stream().map(this::getMappedComments).toList();
+    }
+
+    private CommentResponse getMappedComments(Comment comment) {
+        CommentResponse response = new CommentResponse();
+        response.setAuthorId(comment.getAuthorId());
+        response.setCommentText(comment.getText());
+        return response;
+    }
 }

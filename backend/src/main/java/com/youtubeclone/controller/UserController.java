@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/user/")
@@ -19,13 +20,6 @@ public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
 
-//    @GetMapping("/info")
-//    @ResponseStatus(HttpStatus.OK)
-//    public String registerUser(Authentication authentication) {
-//        Jwt jwt = (Jwt) authentication.getPrincipal();
-//        userService.registerUser(jwt.getTokenValue());
-//        return " User Info";
-//    }
 
     @GetMapping("register")
     @ResponseStatus(HttpStatus.OK)
@@ -33,6 +27,26 @@ public class UserController {
         Jwt jwt = (Jwt) authentication.getPrincipal();
         userService.registerUser(jwt.getTokenValue());
         return "String";
+    }
+
+    @PostMapping("subscribe/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Boolean subscribeToUser(@PathVariable String userId) {
+        userService.subscribeToUser(userId);
+        return true;
+    }
+
+    @PostMapping("unsubscribe/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Boolean unSubscribeToUser(@PathVariable String userId) {
+        userService.unSubscribeToUser(userId);
+        return true;
+    }
+
+    @GetMapping("/history/{videoId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Set<String> getAllUserHistory(@PathVariable String userId) {
+        return userService.getUserHistory(userId);
     }
 
 

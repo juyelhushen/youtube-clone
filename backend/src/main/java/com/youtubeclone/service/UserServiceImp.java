@@ -14,6 +14,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Set;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -111,5 +112,39 @@ public class UserServiceImp implements UserService {
         User user = getCurrentUser();
         user.addVideoToHistory(videoId);
         userRepository.save(user);
+    }
+
+    @Override
+    public void subscribeToUser(String userId) {
+        User currentUser = getCurrentUser();
+        currentUser.addSubscribedToUser(userId);
+
+        User user = getUser(userId);
+        user.addSubscriber(currentUser.getId());
+        userRepository.save(currentUser);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void unSubscribeToUser(String userId) {
+        User currentUser = getCurrentUser();
+        currentUser.removeFromSubscribedToUser(userId);
+
+        User user = getUser(userId);
+        user.removeSubscriber(currentUser.getId());
+        userRepository.save(currentUser);
+        userRepository.save(user);
+    }
+
+    @Override
+    public Set<String> getUserHistory(String userId) {
+        User user = getUser(userId);
+        return user.getVideoHistory();
+
+    }
+
+    private User getUser(String userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id - " + userId));
     }
 }

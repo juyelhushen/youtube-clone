@@ -1,6 +1,8 @@
 package com.youtubeclone.service;
 
 import com.youtubeclone.entity.Video;
+import com.youtubeclone.payload.CommentRequest;
+import com.youtubeclone.payload.CommentResponse;
 import com.youtubeclone.payload.VideoRequest;
 import com.youtubeclone.payload.VideoResponse;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,7 +15,7 @@ public interface VideoService {
 
     String updateVideo(String id, VideoRequest request);
 
-    List<Video> getAllVideo();
+    List<VideoResponse> getAllVideos();
 
     String addThumbnail(String videoId, MultipartFile file);
 
@@ -22,4 +24,8 @@ public interface VideoService {
     VideoResponse likeVideo(String videoId);
 
     VideoResponse dislikeVideo(String videoId);
+
+    void addComment(String videoId, CommentRequest request);
+
+    List<CommentResponse> getAllComment(String videoId);
 }

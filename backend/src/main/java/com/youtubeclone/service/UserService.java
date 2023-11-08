@@ -1,5 +1,7 @@
 package com.youtubeclone.service;
 
+import java.util.Set;
+
 public interface UserService {
     void registerUser(String tokenValue);
 
@@ -16,4 +18,10 @@ public interface UserService {
     void removeFromDisLikedVideos(String videoId);
 
     void addVideoToHistory(String videoId);
+
+    void subscribeToUser(String userId);
+
+    void unSubscribeToUser(String userId);
+
+    Set<String> getUserHistory(String userId);
 }

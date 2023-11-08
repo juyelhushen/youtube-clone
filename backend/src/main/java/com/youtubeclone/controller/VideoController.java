@@ -1,6 +1,8 @@
 package com.youtubeclone.controller;
 
 import com.youtubeclone.entity.Video;
+import com.youtubeclone.payload.CommentRequest;
+import com.youtubeclone.payload.CommentResponse;
 import com.youtubeclone.payload.VideoRequest;
 import com.youtubeclone.payload.VideoResponse;
 import com.youtubeclone.repository.VideoRepository;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/videos")
@@ -64,11 +67,22 @@ public class VideoController {
         return videoService.dislikeVideo(videoId);
     }
 
+    @PostMapping("/addcomment/{videoId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addComment(@PathVariable String videoId, @RequestBody CommentRequest request) {
+        videoService.addComment(videoId, request);
+    }
 
-    @GetMapping("/all")
+    @GetMapping("/allcomment/{videoId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Video> getAllVideo() {
-        return videoService.getAllVideo();
+    public List<CommentResponse> getAllComment(@PathVariable String videoId) {
+        return videoService.getAllComment(videoId);
+    }
+
+    @GetMapping("/allvideos")
+    @ResponseStatus(HttpStatus.OK)
+    public List<VideoResponse> getAllVideo() {
+        return videoService.getAllVideos();
 
     }
 
