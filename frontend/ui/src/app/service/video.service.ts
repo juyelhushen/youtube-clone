@@ -46,4 +46,18 @@ export class VideoService {
     });
   }
 
+  getAllVideos(): Observable<Array<Videoresponse>> {
+    return this.http.get<Array<Videoresponse>>(this.url + 'videos/getall');
+  }
+
+  likeVideo(videoId:string) : Observable<Videoresponse> {
+    return this.http.post<Videoresponse>(this.url+'videos/like/'+ videoId,null);
+  }
+
+  disLikeVideo(videoId:string) : Observable<Videoresponse> {
+    return this.http.post<Videoresponse>(this.url+'videos/dislike/'+ videoId,null);
+  }
+
+
+
 }

@@ -6,5 +6,8 @@ export interface Videoresponse {
   videoStatus:string;
   thumbnailUrl:string;
   videoUrl:string;
+  likedCount:number;
+  disLikedCount:number;
+  viewCount:number;
 }
 

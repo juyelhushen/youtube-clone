@@ -14,6 +14,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -28,7 +29,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void registerUser(String tokenValue) {
+    public String registerUser(String tokenValue) {
 
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
@@ -48,14 +49,22 @@ public class UserServiceImp implements UserService {
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             UserInfoResponse userInfoResponse = mapper.readValue(body, UserInfoResponse.class);
 
-            User user = User.builder()
-                    .firstName(userInfoResponse.getGivenName())
-                    .lastName(userInfoResponse.getNickName())
-                    .fullName(userInfoResponse.getName())
-                    .sub(userInfoResponse.getSub())
-                    .email(userInfoResponse.getEmail())
-                    .build();
-            userRepository.save(user);
+            Optional<User> userBySubject = userRepository.findUserBySub(userInfoResponse.getSub());
+
+            if (userBySubject.isPresent()) {
+                return userBySubject.get().getId();
+            } else {
+                User user = User.builder()
+                        .firstName(userInfoResponse.getGivenName())
+                        .lastName(userInfoResponse.getNickName())
+                        .fullName(userInfoResponse.getName())
+                        .sub(userInfoResponse.getSub())
+                        .email(userInfoResponse.getEmail())
+                        .build();
+                return userRepository.save(user).getId();
+
+            }
+
 
         } catch (Exception e) {
             throw new RuntimeException("Exception Occurred while registering user", e);
@@ -115,7 +124,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void subscribeToUser(String userId) {
+    public Boolean subscribeToUser(String userId) {
         User currentUser = getCurrentUser();
         currentUser.addSubscribedToUser(userId);
 
@@ -123,10 +132,11 @@ public class UserServiceImp implements UserService {
         user.addSubscriber(currentUser.getId());
         userRepository.save(currentUser);
         userRepository.save(user);
+        return true;
     }
 
     @Override
-    public void unSubscribeToUser(String userId) {
+    public Boolean unSubscribeToUser(String userId) {
         User currentUser = getCurrentUser();
         currentUser.removeFromSubscribedToUser(userId);
 
@@ -134,6 +144,7 @@ public class UserServiceImp implements UserService {
         user.removeSubscriber(currentUser.getId());
         userRepository.save(currentUser);
         userRepository.save(user);
+        return true;
     }
 
     @Override

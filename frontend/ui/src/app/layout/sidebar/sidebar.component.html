@@ -1,0 +1,9 @@
+<mat-drawer mode="side" opened>
+  <mat-nav-list *ngFor='let items of sideNavItems' role='list' >
+    <mat-list-item role='listitem' routerLink='/{{items.link}}' routerLinkActive>
+      <mat-icon matListItemIcon>{{items.icon}}</mat-icon>
+      <span matLine>{{items.name | titlecase}}</span>
+    </mat-list-item>
+  </mat-nav-list>
+</mat-drawer>
+<!--  <mat-drawer-content>Main content</mat-drawer-content>-->

@@ -3,7 +3,7 @@ package com.youtubeclone.service;
 import java.util.Set;
 
 public interface UserService {
-    void registerUser(String tokenValue);
+    String registerUser(String tokenValue);
 
     void addToLikedVideo(String videoId);
 
@@ -19,9 +19,9 @@ public interface UserService {
 
     void addVideoToHistory(String videoId);
 
-    void subscribeToUser(String userId);
+    Boolean subscribeToUser(String userId);
 
-    void unSubscribeToUser(String userId);
+    Boolean unSubscribeToUser(String userId);
 
     Set<String> getUserHistory(String userId);
 }

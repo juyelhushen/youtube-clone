@@ -25,7 +25,7 @@ public interface VideoService {
 
     VideoResponse dislikeVideo(String videoId);
 
-    void addComment(String videoId, CommentRequest request);
+    String addComment(String videoId, CommentRequest request);
 
     List<CommentResponse> getAllComment(String videoId);
 }

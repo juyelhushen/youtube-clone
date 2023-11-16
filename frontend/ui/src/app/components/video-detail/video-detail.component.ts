@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {Videoresponse} from "../../model/videoresponse";
 import {SnackbarService} from "../../service/snackbar.service";
 import {VideoService} from "../../service/video.service";
+import {UserService} from "../../service/user.service";
 
 @Component({
   selector: 'app-video-detail',
@@ -15,10 +16,16 @@ export class VideoDetailComponent {
   videoUrl!: string;
   title!: string;
   description!: string;
+  video!: Videoresponse;
+  userId: string = '';
+  isSubscribed: boolean = false;
+  isUnsubscribed: boolean = true;
+
 
   constructor(private activateRouter: ActivatedRoute,
               private snackbar: SnackbarService,
-              private videoService: VideoService) {
+              private videoService: VideoService,
+              private userService: UserService) {
 
   }
 
@@ -34,6 +41,7 @@ export class VideoDetailComponent {
         this.videoUrl = res.videoUrl;
         this.title = res.title;
         this.description = res.description;
+        this.video = res;
         this.snackbar.openSuccessSnackBar(this.videoUrl, 'OK');
       },
       error: (err: any) => {
@@ -42,4 +50,42 @@ export class VideoDetailComponent {
     });
   };
 
+  likeVideo = () => {
+    this.videoService.likeVideo(this.videoId).subscribe({
+      next: (res: Videoresponse) => {
+        this.video.likedCount = res.likedCount;
+        this.video.disLikedCount = res.disLikedCount;
+      }
+    })
+  }
+
+  disLikeVideo = () => {
+    this.videoService.disLikeVideo(this.videoId).subscribe({
+      next: (res: Videoresponse) => {
+        this.video.likedCount = res.likedCount;
+        this.video.disLikedCount = res.disLikedCount;
+      }
+    });
+  };
+
+  subscribedUser = () => {
+    this.userId = this.userService.getUserId();
+    console.log(this.userId+'sfgbdskjzxfgbsdk dfxgbds xkfvj');
+    this.userService.subscribeToUser(this.userId).subscribe({
+      next: (data: boolean) => {
+        this.isSubscribed = true;
+        this.isUnsubscribed = false;
+      }
+    });
+  };
+
+  unSubscribedUser = () => {
+    this.userId = this.userService.getUserId();
+    this.userService.unSubscribeToUser(this.userId).subscribe({
+      next: (data: boolean) => {
+        this.isSubscribed = false;
+        this.isUnsubscribed = true;
+      }
+    });
+  };
 }

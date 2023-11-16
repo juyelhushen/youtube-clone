@@ -19,6 +19,17 @@ import {VideoPlayerComponent} from './components/video-player/video-player.compo
 import {AuthConfigModule} from './auth/auth-config.module';
 import {AuthInterceptor} from "angular-auth-oidc-client";
 import { VideoDetailComponent } from './components/video-detail/video-detail.component';
+import { HomeComponent } from './components/home/home.component';
+import { HistoryComponent } from './components/history/history.component';
+import { SubscriptionComponent } from './components/subscription/subscription.component';
+import { SidebarComponent } from './layout/sidebar/sidebar.component';
+import { LikedVideosComponent } from './components/liked-videos/liked-videos.component';
+import { FeaturedComponent } from './components/featured/featured.component';
+import { VideoCardComponent } from './components/video-card/video-card.component';
+import {NgOptimizedImage} from "@angular/common";
+import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
+import { CallbackComponent } from './components/callback/callback.component';
+import { CommentComponent } from './components/comment/comment.component';
 
 @NgModule({
   declarations: [
@@ -27,23 +38,33 @@ import { VideoDetailComponent } from './components/video-detail/video-detail.com
     HeaderComponent,
     SaveVideoDetailComponent,
     VideoPlayerComponent,
-    VideoDetailComponent
+    VideoDetailComponent,
+    HomeComponent,
+    HistoryComponent,
+    SubscriptionComponent,
+    SidebarComponent,
+    LikedVideosComponent,
+    FeaturedComponent,
+    VideoCardComponent,
+    CallbackComponent,
+    CommentComponent
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    NgxFileDropModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-    ReactiveFormsModule,
-    VgCoreModule,
-    VgControlsModule,
-    VgOverlayPlayModule,
-    VgBufferingModule,
-    AuthConfigModule
-  ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpClientModule,
+        NgxFileDropModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        ReactiveFormsModule,
+        VgCoreModule,
+        VgControlsModule,
+        VgOverlayPlayModule,
+        VgBufferingModule,
+        AuthConfigModule,
+        NgOptimizedImage,
+    ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],

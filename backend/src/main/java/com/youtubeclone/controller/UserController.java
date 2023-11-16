@@ -25,22 +25,21 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public String register(Authentication authentication) {
         Jwt jwt = (Jwt) authentication.getPrincipal();
-        userService.registerUser(jwt.getTokenValue());
-        return "String";
+        String userId =  userService.registerUser(jwt.getTokenValue());
+        return userId;
     }
 
     @PostMapping("subscribe/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public Boolean subscribeToUser(@PathVariable String userId) {
-        userService.subscribeToUser(userId);
-        return true;
+       return userService.subscribeToUser(userId);
     }
 
     @PostMapping("unsubscribe/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public Boolean unSubscribeToUser(@PathVariable String userId) {
-        userService.unSubscribeToUser(userId);
-        return true;
+        return userService.unSubscribeToUser(userId);
+
     }
 
     @GetMapping("/history/{videoId}")

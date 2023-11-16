@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -140,13 +141,17 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public void addComment(String videoId, CommentRequest request) {
+    public String addComment(String videoId, CommentRequest request) {
         Video video = findVideoById(videoId);
         Comment comment = new Comment();
         comment.setAuthorId(request.getAuthorId());
         comment.setText(request.getCommentText());
+        comment.setLikeCount(0);
+        comment.setDisLikeCount(0);
+        comment.setDateTime(LocalDateTime.now());
         video.addComment(comment);
         repository.save(video);
+        return "Your comment successfully added.";
     }
 
     @Override
@@ -160,6 +165,10 @@ public class VideoServiceImpl implements VideoService {
         CommentResponse response = new CommentResponse();
         response.setAuthorId(comment.getAuthorId());
         response.setCommentText(comment.getText());
+        response.setId(comment.getId());
+        response.setLikeCount(comment.getLikeCount());
+        response.setDisLikeCount(comment.getDisLikeCount());
+        response.setDateTime(comment.getDateTime());
         return response;
     }
 }

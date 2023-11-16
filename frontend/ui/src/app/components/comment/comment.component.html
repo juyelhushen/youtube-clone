@@ -1,0 +1,46 @@
+<div class='flex-column'>
+  <div class='fs-5 fw-bold'>
+    <p>{{totalComment}}<span> Comment</span></p>
+    <mat-divider></mat-divider>
+  </div>
+  <div class='p-1'>
+    <form class="example-form" [formGroup]='commentForm'>
+      <mat-form-field class='w-100'>
+        <mat-label>Add a comment</mat-label>
+        <textarea style="resize: none" formControlName='comment' matInput placeholder="Share your thoughts"></textarea>
+      </mat-form-field>
+      <div class="d-block text-end">
+        <button mat-button>CANCEL</button>
+        <button mat-button (click)="addComment()">Comment</button>
+      </div>
+    </form>
+    <mat-divider></mat-divider>
+  </div>
+  <div *ngFor='let comment of comments'>
+    <div class='d-flex flex-row m-2 comment py-3'>
+      <div class="avatar flex-grow-0">
+        <mat-icon>account_circle</mat-icon>
+      </div>
+      <div class="commentText flex-grow-1 px-1">
+        <div class="">{{comment.authorId}} <span>{{comment.dateTime}}</span></div>
+        <div class="h-auto">{{comment.commentText}}</div>
+        <div class='d-flex flex-row position-relative start-n1'>
+          <div>
+            <button mat-icon-button class="d-flex w-auto gap-1 fs-6">{{comment.likeCount}}
+              <mat-icon matLine>thumb_up</mat-icon>
+            </button>
+          </div>
+          <div>
+            <button mat-icon-button class="d-flex w-auto gap-1 fs-6">{{comment.disLikeCount}}
+              <mat-icon matLine>thumb_down</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="deleteIcon flex-grow-0 d-flex align-items-center justify-content-center">
+        <button mat-icon-button><mat-icon>delete</mat-icon></button>
+      </div>
+    </div>
+  </div>
+</div>
+

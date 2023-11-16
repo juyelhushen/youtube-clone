@@ -1,41 +1,126 @@
-.videoPlayer {
-  padding: 10px;
-}
-
-.suggestion {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  background-color: antiquewhite;
-}
-
-app-video-player {
-  width: 100%;
-  height: 100%;
-}
+.videoContainer {
+  display: block;
+  margin: 10px 0;
 
 
-.title {
-  text-align: left;
-  font-size: 1rem;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
+  .videoDetail {
+    display: grid;
+    grid-template-columns: 1fr 0.5fr;
+    gap: 12px;
 
-mat-grid-tile {
-  border-radius: 10px;
+    .videoPlayer {
+      grid-row: 1/3;
+    }
 
-  .title {
-    padding: 5px;
-    font-size: 2rem;
-    width: 100%;
-    height: 100%;
-    text-align: left;
+    .suggestionBar {
+      grid-row: 1/3;
+    }
+
+    .title {
+      grid-row: 3/4;
+      height:fit-content;
+      font-size: 1.5rem;
+      font-weight: bold;
+      padding: 5px;
+      text-align: left;
+
+    }
+
+    .channel {
+      grid-row: 4/5;
+      display: grid;
+      align-items: center;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 15px;
+
+      .channelName {
+        font-size: 1rem;
+        letter-spacing: 1px;
+        font-weight: 500;
+      }
+
+      .like-dislike-section {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        .thumbs-up {
+          display: flex;
+          width: fit-content;
+          align-items: center;
+          gap: 3px;
+        }
+
+        .thumbs-down {
+          display: flex;
+          width: fit-content;
+          align-items: center;
+          gap: 3px;
+        }
+      }
+
+      mat-card-header {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+    }
+
+    .videoDesc {
+      grid-row: 5/6;
+
+      .videoTags {
+        display: flex;
+        gap: 5px;
+        padding: 10px 0;
+      }
+    }
+
+    .commentSection {
+      grid-row: 6/7;
+    }
   }
 
-  .desc {
-    width: 100%;
-    height: 100%;
-    text-align: left;
-  }
-
 }
+
+//.videoPlayer {
+//  padding: 10px;
+//}
+//
+//.suggestion {
+//  overflow-y: scroll;
+//  overflow-x: hidden;
+//  background-color: antiquewhite;
+//}
+//
+//app-video-player {
+//  width: 100%;
+//  height: 100%;
+//}
+//
+//
+//.title {
+//  text-align: left;
+//  font-size: 1rem;
+//  justify-content: flex-start;
+//  align-items: flex-start;
+//}
+//
+//mat-grid-tile {
+//  border-radius: 10px;
+//
+//  .title {
+//    padding: 5px;
+//    font-size: 2rem;
+//    width: 100%;
+//    height: 100%;
+//    text-align: left;
+//  }
+//
+//  .desc {
+//    width: 100%;
+//    height: 100%;
+//    text-align: left;
+//  }
+//
+//}
