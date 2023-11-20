@@ -1,10 +1,7 @@
 package com.youtubeclone.controller;
 
 import com.youtubeclone.entity.Video;
-import com.youtubeclone.payload.CommentRequest;
-import com.youtubeclone.payload.CommentResponse;
-import com.youtubeclone.payload.VideoRequest;
-import com.youtubeclone.payload.VideoResponse;
+import com.youtubeclone.payload.*;
 import com.youtubeclone.repository.VideoRepository;
 import com.youtubeclone.service.VideoService;
 import lombok.RequiredArgsConstructor;
@@ -78,6 +75,18 @@ public class VideoController {
     public List<CommentResponse> getAllComment(@PathVariable String videoId) {
         return videoService.getAllComment(videoId);
     }
+
+    @GetMapping("/comments/count/{videoId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Long getTotalComment(@PathVariable String videoId) {
+        return videoService.getTotalComment(videoId);
+    }
+
+    @PostMapping("/comment/delete")
+    public String deleteComment(@RequestBody CommentDeleteRequest request) {
+        return videoService.deleteComment(request);
+    }
+
 
     @GetMapping("/getall")
     @ResponseStatus(HttpStatus.OK)

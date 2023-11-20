@@ -12,10 +12,14 @@
     <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
       <mat-icon>notifications_none</mat-icon>
     </button>
-    <button mat-icon-button *ngIf="isAuthenticated; else noAuth" class="example-icon"
+    <button [matMenuTriggerFor]="menu" mat-icon-button *ngIf="isAuthenticated; else noAuth" class="example-icon"
             aria-label="Example icon-button with share icon">
       <mat-icon>account_circle</mat-icon>
     </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
+
     <ng-template #noAuth>
       <button mat-raised-button color="accent" (click)='login()'>Login</button>
     </ng-template>

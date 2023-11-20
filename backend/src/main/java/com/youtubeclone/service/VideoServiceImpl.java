@@ -1,22 +1,24 @@
 package com.youtubeclone.service;
 
+import com.amazonaws.services.kms.model.NotFoundException;
 import com.youtubeclone.entity.Comment;
+import com.youtubeclone.entity.User;
 import com.youtubeclone.entity.Video;
-import com.youtubeclone.payload.CommentRequest;
-import com.youtubeclone.payload.CommentResponse;
-import com.youtubeclone.payload.VideoRequest;
-import com.youtubeclone.payload.VideoResponse;
+import com.youtubeclone.payload.*;
 import com.youtubeclone.repository.VideoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class VideoServiceImpl implements VideoService {
+
 
     private final S3Service s3Service;
     private final VideoRepository repository;
@@ -85,11 +87,11 @@ public class VideoServiceImpl implements VideoService {
 
         Video videoById = findVideoById(videoId);
 
-        if (userService.ifLikedVideos(videoId)) {
+        if (userService.ifLikedVideo(videoId)) {
             videoById.decrementLikes();
             userService.removeFromLikedVideos(videoId);
-        } else if (userService.ifDisLikedVideos(videoId)) {
-            videoById.decrementLikes();
+        } else if (userService.ifDisLikedVideo(videoId)) {
+            videoById.decrementDisLikes();
             userService.removeFromDisLikedVideos(videoId);
             videoById.incrementLikes();
             userService.addToLikedVideo(videoId);
@@ -101,16 +103,16 @@ public class VideoServiceImpl implements VideoService {
         repository.save(videoById);
         return videoResponse(videoById);
 
- }
+    }
 
     @Override
     public VideoResponse dislikeVideo(String videoId) {
         Video videoById = findVideoById(videoId);
 
-        if (userService.ifDisLikedVideos(videoId)) {
+        if (userService.ifDisLikedVideo(videoId)) {
             videoById.decrementDisLikes();
             userService.removeFromDisLikedVideos(videoId);
-        } else if (userService.ifLikedVideos(videoId)) {
+        } else if (userService.ifLikedVideo(videoId)) {
             videoById.decrementLikes();
             userService.removeFromLikedVideos(videoId);
             videoById.incrementDisLikes();
@@ -120,10 +122,11 @@ public class VideoServiceImpl implements VideoService {
             userService.addToDisLikedVideo(videoId);
         }
 
+
         repository.save(videoById);
 
         return videoResponse(videoById);
- }
+    }
 
     private VideoResponse videoResponse(Video video) {
         VideoResponse videoResponse = new VideoResponse();
@@ -144,15 +147,19 @@ public class VideoServiceImpl implements VideoService {
     public String addComment(String videoId, CommentRequest request) {
         Video video = findVideoById(videoId);
         Comment comment = new Comment();
+
+        String commentId = UUID.randomUUID().toString();
+        comment.setId(commentId);
         comment.setAuthorId(request.getAuthorId());
         comment.setText(request.getCommentText());
         comment.setLikeCount(0);
         comment.setDisLikeCount(0);
-        comment.setDateTime(LocalDateTime.now());
+        comment.setDate(LocalDate.now());
         video.addComment(comment);
         repository.save(video);
         return "Your comment successfully added.";
     }
+
 
     @Override
     public List<CommentResponse> getAllComment(String videoId) {
@@ -161,14 +168,38 @@ public class VideoServiceImpl implements VideoService {
         return commentList.stream().map(this::getMappedComments).toList();
     }
 
+    @Override
+    public Long getTotalComment(String videoId) {
+        Video video = findVideoById(videoId);
+        long totalComments = video.getComments().size();
+        return totalComments;
+    }
+
+    @Override
+    public String deleteComment(CommentDeleteRequest request) {
+        Video video = findVideoById(request.getVideoId());
+        Optional<Comment> comment = video.getComments().stream().filter(
+                c -> c.getId().equals(request.getCommentId())
+        ).findFirst();
+        System.out.println(comment);
+        video.removeComment(comment.get());
+        repository.save(video);
+        return "Deleted Successfully";
+
+    }
+
     private CommentResponse getMappedComments(Comment comment) {
         CommentResponse response = new CommentResponse();
+        User user = userService.getUser(comment.getAuthorId());
         response.setAuthorId(comment.getAuthorId());
+        if (user != null) {
+            response.setAuthorName(user.getFullName());
+        }
         response.setCommentText(comment.getText());
         response.setId(comment.getId());
         response.setLikeCount(comment.getLikeCount());
         response.setDisLikeCount(comment.getDisLikeCount());
-        response.setDateTime(comment.getDateTime());
+        response.setDate(comment.getDate());
         return response;
     }
 }

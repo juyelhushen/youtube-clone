@@ -26,14 +26,14 @@ export class VideoDetailComponent {
               private snackbar: SnackbarService,
               private videoService: VideoService,
               private userService: UserService) {
-
   }
 
 
   ngOnInit(): void {
     this.videoId = this.activateRouter.snapshot.params['videoId'];
+    this.userService.registerUser();
     this.getVideo();
-  }
+  };
 
   getVideo = (): void => {
     this.videoService.getVideoById(this.videoId).subscribe({
@@ -56,8 +56,8 @@ export class VideoDetailComponent {
         this.video.likedCount = res.likedCount;
         this.video.disLikedCount = res.disLikedCount;
       }
-    })
-  }
+    });
+  };
 
   disLikeVideo = () => {
     this.videoService.disLikeVideo(this.videoId).subscribe({
@@ -70,7 +70,6 @@ export class VideoDetailComponent {
 
   subscribedUser = () => {
     this.userId = this.userService.getUserId();
-    console.log(this.userId+'sfgbdskjzxfgbsdk dfxgbds xkfvj');
     this.userService.subscribeToUser(this.userId).subscribe({
       next: (data: boolean) => {
         this.isSubscribed = true;

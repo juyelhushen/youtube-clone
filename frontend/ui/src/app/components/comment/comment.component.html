@@ -1,6 +1,6 @@
 <div class='flex-column'>
   <div class='fs-5 fw-bold'>
-    <p>{{totalComment}}<span> Comment</span></p>
+    <p>{{totalComment}}<span> Comment </span></p>
     <mat-divider></mat-divider>
   </div>
   <div class='p-1'>
@@ -10,7 +10,7 @@
         <textarea style="resize: none" formControlName='comment' matInput placeholder="Share your thoughts"></textarea>
       </mat-form-field>
       <div class="d-block text-end">
-        <button mat-button>CANCEL</button>
+        <button mat-button (click)="onCancelClick()">CANCEL</button>
         <button mat-button (click)="addComment()">Comment</button>
       </div>
     </form>
@@ -22,7 +22,8 @@
         <mat-icon>account_circle</mat-icon>
       </div>
       <div class="commentText flex-grow-1 px-1">
-        <div class="">{{comment.authorId}} <span>{{comment.dateTime}}</span></div>
+        <div class=""><span class="fw-bold pe-2">{{comment.authorName}}</span>
+          <span>{{comment.date | date:'dd-MMM-YYYY'}}</span></div>
         <div class="h-auto">{{comment.commentText}}</div>
         <div class='d-flex flex-row position-relative start-n1'>
           <div>
@@ -38,9 +39,16 @@
         </div>
       </div>
       <div class="deleteIcon flex-grow-0 d-flex align-items-center justify-content-center">
-        <button mat-icon-button><mat-icon>delete</mat-icon></button>
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+<!--          <mat-icon>ellipsis-vertical</mat-icon>-->
+          <mat-icon>more_vert</mat-icon>
+
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item *ngIf="canUserDeleteComment(comment.authorId)" (click)="deleteComment(comment.id)"><mat-icon>delete</mat-icon>Remove</button>
+          <button mat-menu-item ><mat-icon>report</mat-icon>Report</button>
+        </mat-menu>
       </div>
     </div>
   </div>
 </div>
-

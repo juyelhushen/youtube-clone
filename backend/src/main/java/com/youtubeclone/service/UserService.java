@@ -1,5 +1,7 @@
 package com.youtubeclone.service;
 
+import com.youtubeclone.entity.User;
+
 import java.util.Set;
 
 public interface UserService {
@@ -9,8 +11,8 @@ public interface UserService {
 
     void addToDisLikedVideo(String videoId);
 
-    public boolean ifLikedVideos(String videoId);
-    public boolean ifDisLikedVideos(String videoId);
+    public boolean ifLikedVideo(String videoId);
+    public boolean ifDisLikedVideo(String videoId);
 
 
     void removeFromLikedVideos(String videoId);
@@ -24,4 +26,5 @@ public interface UserService {
     Boolean unSubscribeToUser(String userId);
 
     Set<String> getUserHistory(String userId);
+    public User getUser(String userId);
 }

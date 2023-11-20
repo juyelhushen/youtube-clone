@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Videoresponse} from "../../model/videoresponse";
+import {UserService} from "../../service/user.service";
 
 @Component({
   selector: 'app-video-card',
@@ -10,5 +11,6 @@ export class VideoCardComponent {
 
   @Input()
   video!:Videoresponse;
+
 
 }

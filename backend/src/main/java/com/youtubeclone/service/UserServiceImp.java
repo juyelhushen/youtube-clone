@@ -106,12 +106,12 @@ public class UserServiceImp implements UserService {
         userRepository.save(curretUser);
     }
 
-    public boolean ifLikedVideos(String videoId) {
+    public boolean ifLikedVideo(String videoId) {
         return getCurrentUser().getLikedVideos().stream()
                 .anyMatch(likeVideos -> likeVideos.equals(videoId));
     }
 
-    public boolean ifDisLikedVideos(String videoId) {
+    public boolean ifDisLikedVideo(String videoId) {
         return getCurrentUser().getDisLikedVideos().stream()
                 .anyMatch(dislikeVideos -> dislikeVideos.equals(videoId));
     }
@@ -153,8 +153,8 @@ public class UserServiceImp implements UserService {
         return user.getVideoHistory();
 
     }
-
-    private User getUser(String userId) {
+    @Override
+    public User getUser(String userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id - " + userId));
     }
