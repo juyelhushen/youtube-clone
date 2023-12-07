@@ -3,7 +3,7 @@ export interface Comment {
   commentText: string;
 }
 
-export interface DeleteCommentRequest {
+export interface CommentRequest {
   videoId: string;
   commentId: string;
 }

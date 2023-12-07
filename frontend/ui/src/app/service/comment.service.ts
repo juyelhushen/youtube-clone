@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Comment, DeleteCommentRequest} from "../model/comment";
+import {Comment, CommentRequest} from "../model/comment";
 import {CommentResponse} from "../model/comment-response";
 
 @Injectable({
@@ -29,10 +29,20 @@ export class CommentService {
     return this.http.get<number>(this.url + 'videos/comments/count/' + videoId)
   };
 
-  deleteComment(data: DeleteCommentRequest): Observable<string> {
+  deleteComment(data: CommentRequest): Observable<string> {
     return this.http.post(this.url + 'videos/comment/delete', data, {
       headers: new HttpHeaders().set('Content-type', 'application/json'),
       responseType: 'text'
     });
   };
+
+  likeComment(data: CommentRequest): Observable<CommentResponse> {
+    return this.http.post<CommentResponse>(this.url + 'videos/comment/like', data);
+  }
+
+  disLikeComment(data: CommentRequest): Observable<CommentResponse> {
+    return this.http.post<CommentResponse>(this.url + 'videos/comment/dislike', data);
+  }
+
+
 }

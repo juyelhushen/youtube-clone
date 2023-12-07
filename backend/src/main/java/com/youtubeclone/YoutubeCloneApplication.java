@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @OpenAPIDefinition(info = @Info(title = "Youtube-clone apis", description = "Documentation " +
-		"for Youtube clone apis", version = "V.1.0"))
+		"for Youtube clone apis", version = "v.1.0"))
 public class YoutubeCloneApplication {
 
 	public static void main(String[] args) {

@@ -9,12 +9,18 @@ import {SubscriptionComponent} from "./components/subscription/subscription.comp
 import {LikedVideosComponent} from "./components/liked-videos/liked-videos.component";
 import {FeaturedComponent} from "./components/featured/featured.component";
 import {CallbackComponent} from "./components/callback/callback.component";
+import {ChannelComponent} from "./components/channel/channel.component";
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+    // loadChildren:
     children: [
+      {
+        path:'channel',
+        component:ChannelComponent
+      },
       {
         path: 'featured',
         component: FeaturedComponent
@@ -29,7 +35,7 @@ const routes: Routes = [
       {
         path: 'subscriptions',
         component: SubscriptionComponent
-      }
+      },
     ]
   },
   {
@@ -47,7 +53,7 @@ const routes: Routes = [
   {
     path: 'callback',
     component: CallbackComponent
-  }
+  },
 ];
 
 @NgModule({

@@ -1,4 +1,5 @@
 export interface Videoresponse {
+  userId:string;
   videoId: string;
   title: string;
   description:string;
@@ -9,5 +10,6 @@ export interface Videoresponse {
   likedCount:number;
   disLikedCount:number;
   viewCount:number;
+  uploadOn:Date;
 }
 

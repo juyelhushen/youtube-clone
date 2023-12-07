@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.youtubeclone.entity.User;
 import com.youtubeclone.payload.UserInfoResponse;
+import com.youtubeclone.payload.VideoResponse;
 import com.youtubeclone.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -18,15 +20,13 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImp implements UserService {
 
     @Value("${spring.security.oauth2.authorizationserver.endpoint.oidc.user-info-uri}")
     private String userInfoUrl;
     private final UserRepository userRepository;
 
-    public UserServiceImp(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public String registerUser(String tokenValue) {
@@ -106,15 +106,60 @@ public class UserServiceImp implements UserService {
         userRepository.save(curretUser);
     }
 
+    @Override
+    public void addToLikedComment(String commentId) {
+        User curretUser = getCurrentUser();
+        curretUser.addToLikedComment(commentId);
+        userRepository.save(curretUser);
+    }
+
+    @Override
+    public void addToDisLikedComment(String commentId) {
+        User currentUser = getCurrentUser();
+        currentUser.addToDisLikedComment(commentId);
+        userRepository.save(currentUser);
+    }
+
+    @Override
+    public void removeFromLikedComment(String commentId) {
+        User currentUser = getCurrentUser();
+        currentUser.removeFromLikedComment(commentId);
+        userRepository.save(currentUser);
+    }
+
+    @Override
+    public void removeFromDisLikedComment(String commentId) {
+        User currentUser = getCurrentUser();
+        currentUser.removeFromDisLikedComment(commentId);
+        userRepository.save(currentUser);
+    }
+
+    @Override
     public boolean ifLikedVideo(String videoId) {
         return getCurrentUser().getLikedVideos().stream()
                 .anyMatch(likeVideos -> likeVideos.equals(videoId));
     }
 
+    @Override
     public boolean ifDisLikedVideo(String videoId) {
         return getCurrentUser().getDisLikedVideos().stream()
                 .anyMatch(dislikeVideos -> dislikeVideos.equals(videoId));
     }
+
+    @Override
+    public boolean ifLikedComment(String commentId) {
+        return getCurrentUser().getLikedComment().stream().anyMatch(
+                likedComment -> likedComment.equals(commentId)
+        );
+    }
+
+    @Override
+    public boolean ifDisLikedComment(String commentId) {
+        return getCurrentUser().getDisLikedComment().stream().anyMatch(
+                disLikedComment -> disLikedComment.equals(commentId)
+        );
+    }
+
 
     @Override
     public void addVideoToHistory(String videoId) {
@@ -153,9 +198,17 @@ public class UserServiceImp implements UserService {
         return user.getVideoHistory();
 
     }
+
     @Override
     public User getUser(String userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id - " + userId));
     }
+
+//    @Override
+//    public Set<VideoResponse> getUserAllLikedVideos(String userId) {
+//        User user = getUser(userId);
+//        Set<String> videoIds = user.getLikedVideos();
+//        return videoService.getUserAllLikedVideos(videoIds);
+//    }
 }

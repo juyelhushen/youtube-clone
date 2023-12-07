@@ -1,5 +1,24 @@
 .example-card {
-  max-width: 250px;
+  max-width: 300px;
+  max-height: 300px;
+
+  img {
+    width: 100%;
+    min-height: 150px;
+    max-height: 150px;
+    image-resolution: normal;
+  }
+
+  mat-card-header {
+
+    .card-title {
+      display: -webkit-box;
+      font-size: 1rem;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
 }
 
 .example-header-image {

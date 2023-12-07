@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {OidcSecurityService} from "angular-auth-oidc-client";
 import {Router} from "@angular/router";
 
@@ -8,6 +8,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
+
 
   isAuthenticated: boolean = false;
 

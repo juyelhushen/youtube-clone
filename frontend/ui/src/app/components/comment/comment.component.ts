@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {Comment, DeleteCommentRequest} from "../../model/comment";
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Comment, CommentRequest} from "../../model/comment";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CommentService} from "../../service/comment.service";
 import {UserService} from "../../service/user.service";
@@ -11,11 +11,10 @@ import {SnackbarService} from "../../service/snackbar.service";
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss']
 })
-export class CommentComponent {
+export class CommentComponent implements OnChanges {
 
   @Input()
   videoId!: string;
-
   userId!: string;
 
 
@@ -23,8 +22,9 @@ export class CommentComponent {
   commentForm: any = FormGroup;
   comments: CommentResponse[] = [];
   responseMessage: string = '';
-  comment!: DeleteCommentRequest;
+  // comment!: CommentRequest;
   canDelete: boolean = false;
+
 
   constructor(private fb: FormBuilder,
               private commentService: CommentService,
@@ -38,6 +38,13 @@ export class CommentComponent {
     this.getComment();
     this.getAllCommentCount();
     console.log(this.userId + " comments for user");
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['videoId']) {
+      this.getComment();
+      this.getAllCommentCount();
+    }
   }
 
   validateCommentForm = () => {
@@ -97,7 +104,7 @@ export class CommentComponent {
   };
 
   deleteComment = (commentId: string) => {
-    const data: DeleteCommentRequest = {
+    const data: CommentRequest = {
       videoId: this.videoId,
       commentId: commentId
     };
@@ -111,6 +118,31 @@ export class CommentComponent {
       error: (err) => {
         this.responseMessage = err;
         this.snackBar.openErrorSnackBar(this.responseMessage, 'Error');
+      }
+    });
+  };
+
+
+  likeCommentOnClick = (commentId: string) => {
+    const data: CommentRequest = {
+      videoId: this.videoId,
+      commentId: commentId
+    }
+    this.commentService.likeComment(data).subscribe({
+      next: (res: CommentResponse) => {
+        this.getComment();
+      }
+    });
+  };
+
+  disLikeCommentOnClick = (commentId: string) => {
+    const data: CommentRequest = {
+      videoId: this.videoId,
+      commentId: commentId
+    }
+    this.commentService.disLikeComment(data).subscribe({
+      next: (res: CommentResponse) => {
+        this.getComment();
       }
     });
   };

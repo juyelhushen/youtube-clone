@@ -1,1 +1,10 @@
-<p>liked-videos works!</p>
+<div>
+  <h4>Liked Videos</h4>
+</div>
+<div class='videoCard'>
+  <div *ngFor='let video of videos'>
+    <div>
+      <app-video-card [video]="video"></app-video-card>
+    </div>
+  </div>
+</div>

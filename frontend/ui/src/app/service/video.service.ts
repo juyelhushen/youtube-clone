@@ -58,6 +58,8 @@ export class VideoService {
     return this.http.post<Videoresponse>(this.url+'videos/dislike/'+ videoId,null);
   }
 
-
+  suggestedVideos(videoId:string) : Observable<Videoresponse[]> {
+    return this.http.get<Videoresponse[]>(this.url+'videos/suggested/'+ videoId);
+  }
 
 }

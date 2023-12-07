@@ -64,6 +64,17 @@ public class VideoController {
         return videoService.dislikeVideo(videoId);
     }
 
+    @PostMapping("/comment/like")
+    @ResponseStatus(HttpStatus.OK)
+    public CommentResponse likeComment(@RequestBody CommentUpdateRequest request) {
+        return videoService.likeComment(request);
+    }
+
+    @PostMapping("/comment/dislike")
+    @ResponseStatus(HttpStatus.OK)
+    public CommentResponse disLikeComment(@RequestBody CommentUpdateRequest request) {
+        return videoService.disLikeComment(request);
+    }
     @PostMapping("/addcomment/{videoId}")
     @ResponseStatus(HttpStatus.CREATED)
     public String addComment(@PathVariable String videoId, @RequestBody CommentRequest request) {
@@ -83,7 +94,7 @@ public class VideoController {
     }
 
     @PostMapping("/comment/delete")
-    public String deleteComment(@RequestBody CommentDeleteRequest request) {
+    public String deleteComment(@RequestBody CommentUpdateRequest request) {
         return videoService.deleteComment(request);
     }
 
@@ -92,8 +103,27 @@ public class VideoController {
     @ResponseStatus(HttpStatus.OK)
     public List<VideoResponse> getAllVideo() {
         return videoService.getAllVideos();
-
     }
+
+    @GetMapping("{userId}/likedVideos")
+    @ResponseStatus(HttpStatus.OK)
+    public Set<VideoResponse> getAllUserLikedVideos(@PathVariable String userId) {
+        return videoService.getUserAllLikedVideos(userId);
+    }
+
+
+    @GetMapping("{userId}/videoHistory")
+    @ResponseStatus(HttpStatus.OK)
+    public Set<VideoResponse> getAllUserHistory(@PathVariable String userId) {
+        return videoService.getUserHistory(userId);
+    }
+
+    @GetMapping("suggested/{videoId}")
+    public Set<VideoResponse> suggestedVideoByTags(@PathVariable String videoId) {
+        return videoService.suggestedVideoByTags(videoId);
+    }
+
+
 
     @DeleteMapping("/deleteall")
     public void deleteAllvideo() {

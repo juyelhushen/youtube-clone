@@ -30,6 +30,8 @@ public class User {
     private Set<String> videoHistory = ConcurrentHashMap.newKeySet();
     private Set<String> likedVideos = ConcurrentHashMap.newKeySet();
     private Set<String> disLikedVideos = ConcurrentHashMap.newKeySet();
+    private Set<String> likedComment = ConcurrentHashMap.newKeySet();
+    private Set<String> disLikedComment = ConcurrentHashMap.newKeySet();
 
     public void addToLikedVideos(String videoId) {
         likedVideos.add(videoId);
@@ -47,6 +49,24 @@ public class User {
     public void removeFromDisLikedVideos(String videoId) {
         disLikedVideos.remove(videoId);
     }
+
+    public void addToLikedComment(String commentId) {
+        likedComment.add(commentId);
+    }
+
+    public void addToDisLikedComment(String commentId) {
+        disLikedComment.add(commentId);
+    }
+
+
+    public void removeFromLikedComment(String commentId) {
+        likedComment.remove(commentId);
+    }
+
+    public void removeFromDisLikedComment(String commentId) {
+        disLikedComment.remove(commentId);
+    }
+
 
     public void addVideoToHistory(String videoId) {
         videoHistory.add(videoId);

@@ -1,15 +1,16 @@
 <div class='container-fluid'>
   <mat-toolbar color="primary">
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <button mat-icon-button class="example-icon"
+            aria-label="Example icon-button with menu icon">
       <mat-icon>menu</mat-icon>
     </button>
     <span>Youtube Clone</span>
     <span class="spacer"></span>
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon"
+    <button *ngIf="isAuthenticated;" mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon"
             routerLink='/upload-video'>
       <mat-icon>video_call</mat-icon>
     </button>
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+    <button *ngIf="isAuthenticated;" mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
       <mat-icon>notifications_none</mat-icon>
     </button>
     <button [matMenuTriggerFor]="menu" mat-icon-button *ngIf="isAuthenticated; else noAuth" class="example-icon"
@@ -17,6 +18,7 @@
       <mat-icon>account_circle</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/channel" >View Profile</button>
       <button mat-menu-item (click)="logout()">Logout</button>
     </mat-menu>
 

@@ -27,9 +27,9 @@ import { LikedVideosComponent } from './components/liked-videos/liked-videos.com
 import { FeaturedComponent } from './components/featured/featured.component';
 import { VideoCardComponent } from './components/video-card/video-card.component';
 import {NgOptimizedImage} from "@angular/common";
-import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
 import { CallbackComponent } from './components/callback/callback.component';
 import { CommentComponent } from './components/comment/comment.component';
+import { ChannelComponent } from './components/channel/channel.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +47,8 @@ import { CommentComponent } from './components/comment/comment.component';
     FeaturedComponent,
     VideoCardComponent,
     CallbackComponent,
-    CommentComponent
+    CommentComponent,
+    ChannelComponent,
   ],
     imports: [
         BrowserModule,

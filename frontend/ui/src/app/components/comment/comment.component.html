@@ -27,26 +27,35 @@
         <div class="h-auto">{{comment.commentText}}</div>
         <div class='d-flex flex-row position-relative start-n1'>
           <div>
-            <button mat-icon-button class="d-flex w-auto gap-1 fs-6">{{comment.likeCount}}
-              <mat-icon matLine>thumb_up</mat-icon>
+            <button mat-icon-button class="d-flex w-auto gap-1 fs-6" (click)='likeCommentOnClick(comment.id)'>
+              {{comment.likeCount}}
+              <mat-icon matLine>thumb_up_off_alt</mat-icon>
             </button>
           </div>
           <div>
-            <button mat-icon-button class="d-flex w-auto gap-1 fs-6">{{comment.disLikeCount}}
-              <mat-icon matLine>thumb_down</mat-icon>
+            <button mat-icon-button class="d-flex align-content-center w-auto gap-1 fs-6"
+                    (click)='disLikeCommentOnClick(comment.id)'>
+              {{comment.disLikeCount}}
+              <mat-icon matLine>thumb_down_off_alt</mat-icon>
             </button>
           </div>
         </div>
       </div>
       <div class="deleteIcon flex-grow-0 d-flex align-items-center justify-content-center">
         <button mat-icon-button [matMenuTriggerFor]="menu">
-<!--          <mat-icon>ellipsis-vertical</mat-icon>-->
+          <!--          <mat-icon>ellipsis-vertical</mat-icon>-->
           <mat-icon>more_vert</mat-icon>
 
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item *ngIf="canUserDeleteComment(comment.authorId)" (click)="deleteComment(comment.id)"><mat-icon>delete</mat-icon>Remove</button>
-          <button mat-menu-item ><mat-icon>report</mat-icon>Report</button>
+          <button mat-menu-item *ngIf="canUserDeleteComment(comment.authorId)" (click)="deleteComment(comment.id)">
+            <mat-icon>delete</mat-icon>
+            <span matLine>Remove</span>
+          </button>
+          <button mat-menu-item>
+            <mat-icon>report</mat-icon>
+            <span matLine>Report</span>
+          </button>
         </mat-menu>
       </div>
     </div>

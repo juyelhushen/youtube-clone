@@ -3,7 +3,23 @@
     <div class="videoPlayer">
       <app-video-player *ngIf="videoUrl" [videoUrl]="videoUrl"></app-video-player>
     </div>
-    <div class="suggestionBar">Suggestion</div>
+    <div class="suggestionBar">
+      <mat-card class="card rounded min-vh-25 mh-30 border border-2 mb-2"
+                *ngFor='let suggestedVideo of suggestedVideos'
+                (click)="openSuggestedVideo(suggestedVideo.videoId)">
+        <div class="flex-grow-0 text-white mw-35 h-100">
+          <img class="w-100 h-100 rounded" mat-card-image src='{{suggestedVideo.thumbnailUrl}}'>
+        </div>
+        <div class="d-flex flex-wrap flex-column gap-2 text-start">
+          <div class="fs-6 fw-bold text-start">{{suggestedVideo.title}}</div>
+          <div>Jskool</div>
+          <div class="d-flex flex-row  ">
+            <span class="pe-2">{{suggestedVideo.viewCount}} Views</span>
+            <span>{{suggestedVideo.uploadOn | date:'dd-MMM-yyyy HH:mm:ss'}}</span></div>
+        </div>
+      </mat-card>
+
+    </div>
     <div class="title">{{video.title}}</div>
     <div class="channel">
       <div>
@@ -16,27 +32,30 @@
             <br>
             <mat-card-subtitle class="subtitles">4.2K Subscribers</mat-card-subtitle>
           </div>
-          <button class="subscribe-button" mat-raised-button color="warn" *ngIf="isUnsubscribed" (click)="subscribedUser()">SUBSCRIBE</button>
+          <div>
+          <button  class="subscribe-button" mat-raised-button color="warn" *ngIf="isUnsubscribed" (click)="subscribedUser()">SUBSCRIBE</button>
           <button class="subscribe-button-clicked" mat-raised-button color="accent" *ngIf="isSubscribed" (click)="unSubscribedUser()">UNSUBSCRIBED</button>
+          </div>
         </mat-card-header>
       </div>
       <div>
         <span class="like-dislike-section">
           <button mat-icon-button class="thumbs-up" (click)="likeVideo()">{{video.likedCount}}
-            <mat-icon>thumb_up_off_alt</mat-icon></button>
+            <mat-icon>{{isLiked ? 'thumb_up' : 'thumb_up_off_alt '}}</mat-icon></button>
           <button mat-icon-button class="thumbs-down" (click)="disLikeVideo()">{{video.disLikedCount}}
-            <mat-icon>thumb_down_off_alt</mat-icon></button>
+            <mat-icon>{{isDisLiked ? 'thumb_down' : 'thumb_down_off_alt'}}</mat-icon></button>
         </span>
       </div>
     </div>
 
     <div class="videoDesc">
       <mat-divider></mat-divider>
-      <div class="videoTags">
-        <mat-chip>Spring Boot</mat-chip>
-        <mat-chip>Angular</mat-chip>
+      <div class="videoTags" >
+        <div *ngFor="let tag of tags">
+          <mat-chip>{{tag}}</mat-chip>
+        </div>
       </div>
-      <span>{{video.viewCount}} Views <span>14 OCT, 2023</span></span><br>
+      <span>{{video.viewCount}} Views <span>{{video.uploadOn | date:'dd-MMM-yyyy HH:mm:ss'}}</span></span><br>
       <span>{{video.description}}</span>
     </div>
 

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Data
 @NoArgsConstructor
@@ -16,7 +17,7 @@ public class CommentResponse {
     private String authorId;
     private String authorName;
     private String commentText;
-    private Integer likeCount;
-    private Integer disLikeCount;
+    private AtomicInteger likeCount;
+    private AtomicInteger disLikeCount;
     private LocalDate date;
 }

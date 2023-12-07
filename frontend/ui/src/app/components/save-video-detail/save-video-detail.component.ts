@@ -7,6 +7,7 @@ import {VideoService} from "../../service/video.service";
 import {SnackbarService} from "../../service/snackbar.service";
 import {Videoresponse} from "../../model/videoresponse";
 import {Videorequest} from "../../model/videorequest";
+import {UserService} from "../../service/user.service";
 
 @Component({
   selector: 'app-save-video-detail',
@@ -33,11 +34,13 @@ export class SaveVideoDetailComponent {
   constructor(private fb: FormBuilder,
               private activatedRouter: ActivatedRoute,
               private videoService: VideoService,
-              private snackbar: SnackbarService) {
+              private snackbar: SnackbarService,
+              private userService: UserService) {
     this.videoId = this.activatedRouter.snapshot.params['videoId'];
   }
 
   ngOnInit(): void {
+    this.userService.registerUser();
     this.videoFormValidate();
     this.getVideo();
   }
@@ -125,6 +128,7 @@ export class SaveVideoDetailComponent {
     const formData = this.videoDetailForm.value;
     const data: Videorequest = {
       title: formData.title,
+      userId:this.userService.getUserId(),
       description: formData.description,
       tags: this.tags,
       thumbnailUrl: this.thumbnailUrl,

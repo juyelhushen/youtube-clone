@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -12,6 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class VideoResponse {
 
+    private String userId;
     private String videoId;
     private String title;
     private String description;
@@ -22,6 +24,7 @@ public class VideoResponse {
     private Integer likedCount;
     private Integer disLikedCount;
     private Integer viewCount;
+    private LocalDateTime uploadOn;
 
     public VideoResponse(String videoId, String videoUrl) {
         this.videoId = videoId;
