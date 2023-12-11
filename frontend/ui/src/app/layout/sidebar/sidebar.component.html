@@ -1,4 +1,4 @@
-<mat-drawer mode="side" opened>
+<mat-drawer mode="side" [opened]='isSidenavOpen'>
   <mat-nav-list *ngFor='let items of sideNavItems' role='list' >
     <mat-list-item role='listitem' routerLink='/{{items.link}}' routerLinkActive>
       <mat-icon matListItemIcon>{{items.icon}}</mat-icon>

@@ -1,7 +1,10 @@
 package com.youtubeclone.service;
 
 import com.youtubeclone.entity.User;
+import com.youtubeclone.payload.UserRequest;
+import com.youtubeclone.payload.UserResponse;
 import com.youtubeclone.payload.VideoResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
@@ -41,6 +44,14 @@ public interface UserService {
 
     Set<String> getUserHistory(String userId);
     public User getUser(String userId);
+
+    String uploadProfile(String userId, MultipartFile file);
+
+    UserResponse getUserResponse(String userId);
+
+    String patchUserUpdate(String userId, UserRequest request);
+
+
 
 //    Set<VideoResponse> getUserAllLikedVideos(String userId);
 }

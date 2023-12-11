@@ -15,16 +15,16 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    // loadChildren:
     children: [
       {
-        path:'channel',
-        component:ChannelComponent
+        path: 'channel',
+        component: ChannelComponent
       },
       {
         path: 'featured',
         component: FeaturedComponent
-      }, {
+      },
+      {
         path: 'history',
         component: HistoryComponent
       },

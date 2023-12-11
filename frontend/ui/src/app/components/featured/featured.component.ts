@@ -16,14 +16,13 @@ export class FeaturedComponent {
 
   ngOnInit(): void {
     this.getAllVideos();
-  }
+  };
 
   getAllVideos = () => {
     this.videoService.getAllVideos().subscribe({
       next: (res: Array<Videoresponse>) => {
         this.videos = res;
       }
-    })
-  }
-
+    });
+  };
 }

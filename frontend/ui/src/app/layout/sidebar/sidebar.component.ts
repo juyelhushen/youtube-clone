@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {Sidenavitem} from "../../model/sidenavitem";
+import {SidenavService} from "../../service/sidenav.service";
 
 @Component({
   selector: 'app-sidebar',
@@ -8,26 +9,41 @@ import {Sidenavitem} from "../../model/sidenavitem";
 })
 export class SidebarComponent {
 
+  isSidenavOpen = false;
+
+  constructor(private sidenavService: SidenavService) {
+
+  }
+
+  ngOnInit() {
+    this.sidenavService.state.subscribe({
+      next: (state: boolean) => {
+        this.isSidenavOpen = state;
+      }
+    })
+  }
+
+
   sideNavItems: Sidenavitem[] = [
     {
       name: 'Home',
       link: 'featured',
-      icon:'home'
+      icon: 'home'
     },
     {
       name: 'Subscriptions',
       link: 'subscriptions',
-      icon:'subscriptions'
+      icon: 'subscriptions'
     },
     {
       name: 'History',
       link: 'history',
-      icon:'history'
+      icon: 'history'
     },
     {
       name: 'Liked Videos',
       link: 'liked/videos',
-      icon:'thumb_up'
+      icon: 'thumb_up'
     },
   ]
 

@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Videoresponse} from "../../model/videoresponse";
 import {UserService} from "../../service/user.service";
+import {UserResponse} from "../../model/userresponse";
 
 @Component({
   selector: 'app-video-card',
@@ -13,11 +14,18 @@ export class VideoCardComponent {
   video!: Videoresponse;
 
   timeAgo: string = '';
+  user!:UserResponse
+  userProfileUrl!:string;
+
+  constructor(private userService: UserService) {
+  }
 
   ngOnInit(): void {
-
-    this.getTimeAgo();
+    this.getTimeAgo()
+    this.fetchUserDetails();
   }
+
+
 
   getTimeAgo = () => {
     if (this.video && this.video.uploadOn) {
@@ -49,7 +57,21 @@ export class VideoCardComponent {
         this.timeAgo = `${years} year${years !== 1 ? 's' : ''} ago`;
       }
     }
-  };
+  }
+
+  private fetchUserDetails(): void {
+    if (this.video && this.video.userId) {
+      this.userService.getUserResponse(this.video.userId).subscribe({
+        next:(res:UserResponse) => {
+          this.user = res;
+          this.userProfileUrl = res.profileUrl;
+        },
+        error:(err:any) => {
+          console.error('Error fetching user details:', err);
+        }
+      })
+    }
+  }
 
 
 }

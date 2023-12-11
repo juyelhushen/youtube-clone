@@ -1,0 +1,14 @@
+.profile {
+  width: 200px;
+  height: 200px;
+  border: solid 2px green;
+  border-radius:50%;
+}
+
+
+.videoCard {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  flex-wrap: wrap;
+}

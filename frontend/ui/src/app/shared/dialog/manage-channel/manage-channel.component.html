@@ -1,0 +1,30 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>{{dialogData.action}}</span>
+    <span class="spacer"></span>
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-dialog-content [formGroup]='channelForm'>
+  <mat-form-field appearance="outline">
+    <mat-label>Channel Name</mat-label>
+    <input type="text" matInput formControlName='name' [value]="dialogData.name">
+    <mat-error *ngIf="channelForm.controls.name.touched && channelForm.controls.name.invalid">
+      <span *ngIf="channelForm.controls.name.errors.required">This Field is mandatory.</span>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>About Channel</mat-label>
+    <textarea matInput formControlName='description'></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center">
+  <button mat-button color="primary" (click)="editChannelNameOnClick()" cdkFocusInitial>Update</button>
+  <button mat-stroked-button color="warn" mat-dialog-close>Close</button>
+</mat-dialog-actions>
+
+

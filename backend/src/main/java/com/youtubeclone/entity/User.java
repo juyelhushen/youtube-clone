@@ -25,6 +25,9 @@ public class User {
     private String fullName;
     private String email;
     private String sub;
+    private String profileUrl;
+    private String channelName;
+    private String channelDescription;
     private Set<String> subscribeToUser = ConcurrentHashMap.newKeySet();
     private Set<String> subscribers = ConcurrentHashMap.newKeySet();
     private Set<String> videoHistory = ConcurrentHashMap.newKeySet();

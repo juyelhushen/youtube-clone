@@ -15,5 +15,7 @@ public interface VideoRepository extends MongoRepository<Video,String> {
     @Query("{'tags': {$in: ?0}}")
     Set<Video> findByTags(Set<String> tags);
 
+    @Query("{userId: ?0}")
+    Set<Video> findVideosByUserId(String userId);
 
 }

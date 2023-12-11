@@ -15,7 +15,7 @@ export class CallbackComponent {
 
   ngOnInit(): void {
     this.userService.registerUser();
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl('/featured');
   }
 
 }

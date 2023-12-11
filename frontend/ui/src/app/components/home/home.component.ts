@@ -12,6 +12,8 @@ export class HomeComponent {
   }
 
   ngOnInit(): void {
-    this.router.navigateByUrl('/featured');
+    this.router.navigateByUrl('/featured').then(() => {
+      console.log("Testing")
+    });
   }
 }

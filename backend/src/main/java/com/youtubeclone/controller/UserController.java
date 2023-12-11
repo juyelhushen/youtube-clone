@@ -1,6 +1,9 @@
 package com.youtubeclone.controller;
 
 import com.youtubeclone.entity.User;
+import com.youtubeclone.payload.UserInfoResponse;
+import com.youtubeclone.payload.UserRequest;
+import com.youtubeclone.payload.UserResponse;
 import com.youtubeclone.payload.VideoResponse;
 import com.youtubeclone.repository.UserRepository;
 import com.youtubeclone.service.UserService;
@@ -9,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
@@ -26,8 +30,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public String register(Authentication authentication) {
         Jwt jwt = (Jwt) authentication.getPrincipal();
-        String userId =  userService.registerUser(jwt.getTokenValue());
-        return userId;
+        return userService.registerUser(jwt.getTokenValue());
     }
 
     @PostMapping("subscribe/{userId}")
@@ -43,14 +46,26 @@ public class UserController {
 
     }
 
-    @GetMapping("/history/{videoId}")
+    @GetMapping("history/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public Set<String> getAllUserHistory(@PathVariable String userId) {
         return userService.getUserHistory(userId);
     }
 
+    @PutMapping("upload/profile/{userId}")
+    public String uploadProfile(@PathVariable String userId,@RequestParam("file") MultipartFile file) {
+        return userService.uploadProfile(userId, file);
+    }
 
+    @GetMapping("{userId}")
+    public UserResponse getUserResponse(@PathVariable String userId) {
+        return userService.getUserResponse(userId);
+    }
 
+    @PatchMapping("patch/update/{userId}")
+    public String patchUserUpdate(@PathVariable String userId, @RequestBody UserRequest request) {
+        return userService.patchUserUpdate(userId, request);
+    }
 
 
     @GetMapping("all")

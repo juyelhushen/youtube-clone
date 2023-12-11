@@ -1,1 +1,40 @@
-<p>channel works!</p>
+<div class="container-fluid ms d-flex flex-column gap-2">
+  <div class="d-flex flex-row gap-3 ms-3">
+    <div>
+      <img *ngIf="imageUrl === null" class="profile" src="./assets/profile-alt.jpeg" alt="profile">
+      <img *ngIf="imageUrl" class="profile" [src]="imageUrl" alt="profile" loading="lazy">
+    </div>
+    <div class="d-flex flex-wrap flex-column gap-2 pt-3">
+      <p class="fs-1 fw-bold">{{userResponse.channelName}}
+        <span class="ms-2" matTooltip="Edit" (click)='handleEditChannelName()'><mat-icon>edit</mat-icon></span></p>
+      <p>Channel Detail <span>1M Subscriber</span></p>
+      <p class="h-auto">{{userResponse.channelDescription}}</p>
+    </div>
+  </div>
+  <div class='d-flex flex-column gap-2 mt-2'>
+    <input type="file" (change)="onFileSelected($event)">
+    <div class="w-50">
+      <button *ngIf="isFileSelected" class="w-25" mat-raised-button color="primary" (click)="uploadProfileOnClick()">
+        upload
+      </button>
+    </div>
+
+  </div>
+  <div class="container">
+    <mat-tab-group dynamicHeight mat-align-tabs="start" mat-stretch-tabs='false' fitInkBarToContent>
+      <mat-tab class="ps-2" label="Home"> Home</mat-tab>
+      <mat-tab class="ps-2" label="Videos">
+        <div class='videoCard'>
+          <div *ngFor='let video of videoResponse'>
+            <div>
+              <app-video-card [video]="video"></app-video-card>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab class="ps-2" label="Shorts"> Shorts</mat-tab>
+      <mat-tab class="ps-2" label="Playlists"> Playlist</mat-tab>
+      <mat-tab class="ps-2" label="Community"> Community</mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

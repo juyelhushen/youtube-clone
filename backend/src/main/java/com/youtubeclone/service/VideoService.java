@@ -41,4 +41,6 @@ public interface VideoService {
     CommentResponse likeComment(CommentUpdateRequest request);
 
     CommentResponse disLikeComment(CommentUpdateRequest request);
+
+    Set<VideoResponse> getVideoByUserId(String userId);
 }

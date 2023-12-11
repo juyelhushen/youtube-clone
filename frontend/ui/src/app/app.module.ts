@@ -30,6 +30,9 @@ import {NgOptimizedImage} from "@angular/common";
 import { CallbackComponent } from './components/callback/callback.component';
 import { CommentComponent } from './components/comment/comment.component';
 import { ChannelComponent } from './components/channel/channel.component';
+import { ManageChannelComponent } from './shared/dialog/manage-channel/manage-channel.component';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   declarations: [
@@ -49,6 +52,7 @@ import { ChannelComponent } from './components/channel/channel.component';
     CallbackComponent,
     CommentComponent,
     ChannelComponent,
+    ManageChannelComponent,
   ],
     imports: [
         BrowserModule,
@@ -58,6 +62,9 @@ import { ChannelComponent } from './components/channel/channel.component';
         AppRoutingModule,
         BrowserAnimationsModule,
         MaterialModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule,
         ReactiveFormsModule,
         VgCoreModule,
         VgControlsModule,

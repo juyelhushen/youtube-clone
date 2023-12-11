@@ -105,22 +105,29 @@ public class VideoController {
         return videoService.getAllVideos();
     }
 
-    @GetMapping("{userId}/likedVideos")
+    @GetMapping("/{userId}/likedVideos")
     @ResponseStatus(HttpStatus.OK)
     public Set<VideoResponse> getAllUserLikedVideos(@PathVariable String userId) {
         return videoService.getUserAllLikedVideos(userId);
     }
 
 
-    @GetMapping("{userId}/videoHistory")
+    @GetMapping("/{userId}/videoHistory")
     @ResponseStatus(HttpStatus.OK)
     public Set<VideoResponse> getAllUserHistory(@PathVariable String userId) {
         return videoService.getUserHistory(userId);
     }
 
-    @GetMapping("suggested/{videoId}")
+    @GetMapping("/suggested/{videoId}")
     public Set<VideoResponse> suggestedVideoByTags(@PathVariable String videoId) {
         return videoService.suggestedVideoByTags(videoId);
+    }
+
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/user/{userId}")
+    public Set<VideoResponse> getVideoByUserId(@PathVariable String userId) {
+        return videoService.getVideoByUserId(userId);
     }
 
 

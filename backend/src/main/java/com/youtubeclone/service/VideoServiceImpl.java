@@ -295,4 +295,10 @@ public class VideoServiceImpl implements VideoService {
         repository.save(videoById);
         return getMappedComments(comment);
     }
+
+    @Override
+    public Set<VideoResponse> getVideoByUserId(String userId) {
+        Set<Video> videos = repository.findVideosByUserId(userId);
+        return videos.stream().map(this::videoResponse).collect(Collectors.toSet());
+    }
 }

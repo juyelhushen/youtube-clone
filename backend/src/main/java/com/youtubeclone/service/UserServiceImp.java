@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.youtubeclone.entity.User;
 import com.youtubeclone.payload.UserInfoResponse;
+import com.youtubeclone.payload.UserRequest;
+import com.youtubeclone.payload.UserResponse;
 import com.youtubeclone.payload.VideoResponse;
 import com.youtubeclone.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -26,6 +29,7 @@ public class UserServiceImp implements UserService {
     @Value("${spring.security.oauth2.authorizationserver.endpoint.oidc.user-info-uri}")
     private String userInfoUrl;
     private final UserRepository userRepository;
+    private final S3Service s3Service;
 
 
     @Override
@@ -205,10 +209,60 @@ public class UserServiceImp implements UserService {
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id - " + userId));
     }
 
-//    @Override
+    @Override
+    public String uploadProfile(String userId, MultipartFile file) {
+        User user = getUser(userId);
+        String profileUrl = s3Service.uploadFile(file);
+        user.setProfileUrl(profileUrl);
+        userRepository.save(user);
+        return profileUrl;
+    }
+
+    @Override
+    public UserResponse getUserResponse(String userId) {
+        User user = getUser(userId);
+        return userResponse(user);
+    }
+
+    //    @Override
 //    public Set<VideoResponse> getUserAllLikedVideos(String userId) {
 //        User user = getUser(userId);
 //        Set<String> videoIds = user.getLikedVideos();
 //        return videoService.getUserAllLikedVideos(videoIds);
 //    }
+
+    private UserResponse userResponse(User user) {
+        return UserResponse.builder()
+                .id(user.getId())
+                .channelName(user.getChannelName())
+                .channelDescription(user.getChannelDescription())
+                .profileUrl(user.getProfileUrl())
+                .fullName(user.getFullName())
+                .email(user.getEmail())
+                .build();
+    }
+
+    @Override
+    public String patchUserUpdate(String userId, UserRequest request) {
+        User user = getUser(userId);
+        String message = "";
+        if (user != null) {
+            if (request.getChannelName() != null) {
+                user.setChannelName(request.getChannelName());
+                message = "Channel name changed successfully";
+            }
+
+            if (request.getChannelDescription() != null) {
+                user.setChannelDescription(request.getChannelDescription());
+                message = "Channel description updated successfully";
+            }
+
+            userRepository.save(user);
+            return message;
+        }
+        throw new IllegalArgumentException("User not found");
+    }
+
+
+
 }
