@@ -1,13 +1,16 @@
+
 spring:
   application:
     name: youtube-clone
-
+  config:
+    import: "optional:configserver:http://localhost:8080"
   data:
     mongodb:
       host: localhost
       port: 27017
       database: youtube-clone
       auto-index-creation: false
+
 
   servlet:
     multipart:
@@ -18,12 +21,12 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: <issueUrl>
+          issuer-uri: https://dev-fdcej4517yao5gy8.uk.auth0.com/
           audiences:  http://localhost:8080/
       authorizationserver:
         endpoint:
           oidc:
-            user-info-uri: <userInfoUrl>
+            user-info-uri: https://dev-fdcej4517yao5gy8.uk.auth0.com/userinfo
 
 
 
@@ -45,13 +48,3 @@ logging:
     sql: error
 
 
-#AWS properties
-
-
-#  accessKey: <accesskey>
-#  secretKey: <secretKey>
-#  region: <region>
-
-s3:
-  bucket:
-    name: jskool-bucket

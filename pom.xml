@@ -16,6 +16,7 @@
 	<description>Youtube clone Project with Sprig Boot and Angular</description>
     <modules>
         <module>backend</module>
+		<module>yc-config-server</module>
 		<module>frontend</module>
 	</modules>
     <properties>

@@ -1,0 +1,15 @@
+server:
+  port: 8081
+
+springdoc:
+  packagesToScan: com.youtubeclone
+
+#AWS properties
+
+  accessKey: <accesskey>
+  secretKey: <secretKey>
+  region: <region>
+
+s3:
+  bucket:
+    name: jskool-bucket
